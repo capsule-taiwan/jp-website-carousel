@@ -2,4 +2,6 @@ name = "jp-website-slider-notionapi"
 main = "index.js"
 compatibility_date = "2026-01-08"
 
-# NOTION_API_KEY 和 NOTION_DATABASE 用 `npx wrangler secret put` 設定，不要寫在這裡
+# NOTION_API_KEY 和 NOTION_DATABASE 用 `npx wrangler secret put` 設定，不要寫在這裡。
+# 部署時保留後台設定的一般變數；沒有這行的話，wrangler deploy 會把它們清掉。
+keep_vars = true

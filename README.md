@@ -32,19 +32,21 @@ Worker 很單純：收到請求就用 `NOTION_API_KEY` 去查 `NOTION_DATABASE`�
 | `NOTION_API_KEY` | Notion integration 的 token，這個 integration 要在資料庫的「連線」裡有權限 |
 | `NOTION_DATABASE` | 輪播資料庫的 ID（Notion 資料庫網址中的那串） |
 
-**目前部署在哪：** zhaoen 公司 email 的 Cloudflare 帳號，網址是 `https://jp-website-slider-notionapi.zhaoen.workers.dev`。兩個變數在那邊是存成一般變數（plain_text），不是加密的密鑰。
+**目前部署在哪：** 公司的 Cloudflare 帳號（`it…@capsulecorporation.cc`），網址是 `https://jp-website-slider-notionapi.it-b89.workers.dev`。2026-11-11 從 zhaoen 的帳號搬過來。
 
-**搬到自己的 Cloudflare 帳號：**
+兩個變數是在後台設定的。如果是一般變數（plain text），值在後台看得到明碼；改成 Secret 比較好，名稱和值不變即可。
+
+**改程式後重新部署：**
 
 ```bash
 cd worker
-npx wrangler login
+npx wrangler login     # 用公司的 Cloudflare 帳號
 npx wrangler deploy
-npx wrangler secret put NOTION_API_KEY
-npx wrangler secret put NOTION_DATABASE
 ```
 
-部署完會拿到新網址 `https://jp-website-slider-notionapi.<你的子網域>.workers.dev`。把 `index.html` 的 `WORKER_URL` 改成它再 push 就完成了，Super.app 那邊不用動。確認新的正常後，再刪掉舊帳號裡的 Worker。
+`wrangler.toml` 裡有 `keep_vars = true`，部署時會保留後台設定的變數。**不要拿掉這行**，否則一般變數會在部署時被清掉，輪播就抓不到資料。
+
+**搬到別的 Cloudflare 帳號：** 在新帳號 `npx wrangler deploy`，再用 `npx wrangler secret put NOTION_API_KEY` 和 `npx wrangler secret put NOTION_DATABASE` 設定兩個值。部署完會拿到新網址 `https://jp-website-slider-notionapi.<子網域>.workers.dev`，把 `index.html` 的 `WORKER_URL` 改成它再 push 就完成了，Super.app 那邊不用動。
 
 ## 關於 `deploy.yml`
 
