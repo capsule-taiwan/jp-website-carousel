@@ -1,0 +1,5 @@
+name = "jp-website-slider-notionapi"
+main = "index.js"
+compatibility_date = "2026-01-08"
+
+# NOTION_API_KEY 和 NOTION_DATABASE 用 `npx wrangler secret put` 設定，不要寫在這裡
